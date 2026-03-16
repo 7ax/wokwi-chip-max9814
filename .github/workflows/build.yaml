@@ -1,0 +1,51 @@
+name: Build WASM
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install WASI SDK
+        env:
+          WASI_VERSION: "24"
+        run: |
+          wget -q "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_VERSION}/wasi-sdk-${WASI_VERSION}.0-x86_64-linux.tar.gz" -O wasi-sdk.tar.gz
+          sudo mkdir -p /opt/wasi-sdk
+          sudo tar xf wasi-sdk.tar.gz --strip-components=1 -C /opt/wasi-sdk
+
+      - name: Build
+        run: make
+
+      - name: Commit compiled WASM
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/chip.wasm
+          git diff --staged --quiet || (git commit -m "build: compile chip.wasm [skip ci]" && git push)
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

@@ -1,0 +1,9 @@
+{
+  "pins": {
+    "VCC":  { "x": 8,  "y": 43, "svgId": "pin-VCC",  "signals": [] },
+    "GND":  { "x": 22, "y": 43, "svgId": "pin-GND",  "signals": [] },
+    "OUT":  { "x": 36, "y": 43, "svgId": "pin-OUT",  "signals": [] },
+    "GAIN": { "x": 50, "y": 43, "svgId": "pin-GAIN", "signals": [] },
+    "AR":   { "x": 64, "y": 43, "svgId": "pin-AR",   "signals": [] }
+  }
+}
