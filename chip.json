@@ -1,6 +1,8 @@
 {
+  "version": 1,
   "name": "MAX9814",
   "author": "7ax",
+  "docs": "https://github.com/7ax/wokwi-chip-max9814",
   "pins": ["VCC", "GND", "OUT", "GAIN", "AR"],
   "controls": [
     { "id": "amplitude", "type": "range", "min": 0, "max": 1, "step": 0.01, "default": 0.3, "label": "Amplitude" },
