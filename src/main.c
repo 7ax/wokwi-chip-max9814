@@ -1,5 +1,6 @@
 #include "wokwi-api.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define SAMPLE_PERIOD_US 125 /* 8 kHz sample rate */
 #define DC_BIAS 1.23f  /* MAX9814 output DC bias (datasheet typ: 1.23V, range 1.14-1.32V) */
